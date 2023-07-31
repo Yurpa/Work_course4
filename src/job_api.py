@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
 import requests as requests
-import os
 
 
 class JobAPI(ABC):
