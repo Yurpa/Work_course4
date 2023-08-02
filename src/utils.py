@@ -1,29 +1,43 @@
-from src.job_api import HH
-from src.classes_for_vacancies import Vac_for_HH, JsonVac
+from src.job_api import HH, SJ
+from src.classes_for_vacancies import Vac_for_HH, JsonVac, VacSJ
 from job_json import RAWjson
 
 class WorkWithUser:
     '''Пользовательский интерфейс (почти)'''
     def __init__(self):
+        self.site = None
         self.request = None
         self.city = None
         self.quantity = None
 
     def __str__(self):
         return f"Ваш запрос:" \
-               f"\nСайт - Headhunters" \
+               f"\nСайт -{self.site}" \
                f"\nЗапрос - {self.request}" \
                f"\nГород - {self.city}" \
                f"\nКол-во вакансий - {self.quantity}"
+
+    def choice_site(self):
+        site_list = ['hh.ru', 'superjob.ru']
+        while True:
+            try:
+                choice_user = int(
+                    input(f'1 - {site_list[0]}\n2 - {site_list[1]}\nВыберите платформу: '))
+                if choice_user in [1, 2]:
+                    self.site = site_list[choice_user - 1]
+                    break
+                else:
+                    raise ValueError
+            except ValueError: print("Ошибка ввода")
 
     def get_request(self):
         self.request = input("\nВведите Ваш запрос: ")
 
     def city_choice(self):
-        city_list = ['Россия', 'Москва']
+        city_list = ['Россия', 'Москва', 'Санкт-Петербург']
         while True:
             try:
-                choice_user = int(input(f'1 - {city_list[0]}\n2 - {city_list[1]}\nВыбирите регион: '))
+                choice_user = int(input(f'1 - {city_list[0]}\n2 - {city_list[1]}\n3 - {city_list[2]}\nВыбирите регион: '))
                 if choice_user in [1, 2]:
                     self.city = city_list[choice_user - 1]
                     break
@@ -33,22 +47,35 @@ class WorkWithUser:
 
 
     def number(self):
-        while True:
-            try:
-                choice_user = int(input("\nДиапазон от 1 до 100\nВведите количество вакансий для вывода: "))
-                if 0 < choice_user < 101:
-                    self.quantity = choice_user
-                    break
-                else:
-                    raise ValueError
-            except ValueError: print("Ошибка ввода")
+        if self.site == 'superjob.ru':
+            self.quantity = 20
+            print(f'Количество вакансий будет - {self.quantity}')
+        else:
+            while True:
+                try:
+                    choice_user = int(input("\nДиапазон от 1 до 100\nВведите количество вакансий для вывода в топ: "))
+                    if 0 < choice_user < 101:
+                        self.quantity = choice_user
+                        break
+                    else:
+                        raise ValueError
+                except ValueError: print("Ошибка ввода")
 
     def api(self, number: int):
         jobs = []
-        city = {'Россия': 1, 'Москва': 1}
-        info = HH(self.request, self.quantity, city[self.city]).get_info()
-        for item in info:
-            jobs.append(Vac_for_HH(item).__dict__)
+        if self.site == 'hh.ru':
+            city = {'Россия': 1, 'Москва': 1, 'Санкт-Петербург': 2}
+            info = HH(self.request, self.quantity, city[self.city]).info()
+            for item in info:
+                jobs.append(Vac_for_HH(item).__dict__)
+        else:
+            city = {'Россия': 1, 'Москва': 4, 'Санкт-Петербург': 14}
+            if self.city == 'Россия':
+                info = SJ(self.request, c=city[self.city]).get_info()
+            else:
+                info = SJ(self.request, t=city[self.city]).get_info()
+            for item in info:
+                jobs.append(VacSJ(item).__dict__)
         if number == 0:
             RAWjson.write_json(jobs)
         else:

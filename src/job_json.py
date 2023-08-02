@@ -33,3 +33,5 @@ class RAWjson(JobFiles):
             all_data.append(i)
         with open('vacancies.json', 'w', encoding='utf-8') as file:
             json.dump(all_data, file, indent=4, ensure_ascii=False)
+
+

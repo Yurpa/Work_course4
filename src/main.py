@@ -7,12 +7,12 @@ def get_user(user: WorkWithUser, count: int):
 
     user.choice_site()  # выбор ресурса
     user.get_request()  # запрос
-    user.choice_city()  # Выбор региона для поиска вакансий
-    user.quantity_vacancies()  # Количество вакансий
+    user.city_choice()  # Выбор региона для поиска вакансий
+    user.number()  # Количество вакансий
 
     print(f'\n{user}')  # Показывает запрос
 
-    user.work_api(count)
+    user.api(count)
 
 
 def repeat_get(user: WorkWithUser):
