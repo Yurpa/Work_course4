@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import json
 
 class JobFiles(ABC):
+    ''''Абс. класс для API'''
     @staticmethod
     def read():
         pass

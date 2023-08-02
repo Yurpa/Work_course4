@@ -4,7 +4,7 @@ import requests as requests
 
 
 class JobAPI(ABC):
-    '''Для API'''
+    '''Абс. класс для API'''
 
     @abstractmethod
     def __init__(self):
