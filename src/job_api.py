@@ -12,7 +12,7 @@ class JobAPI(ABC):
         pass
 
     @abstractmethod
-    def info(self):
+    def get_info(self):
         pass
 
 
@@ -25,11 +25,11 @@ class HH(JobAPI):
         self.per_page = per_page
         self.area = city
 
-    def info(self):
+    def get_info(self):
         '''Список вакансий'''
         answer = requests.get(self.url, params= self.__dict__)
-        list =answer.json()['items']
-        return list
+        info =answer.json()['items']
+        return info
 
 class SJ(JobAPI):
     """Для API SuperJob"""

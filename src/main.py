@@ -3,7 +3,7 @@ from src.job_json import RAWjson
 
 
 def get_user(user: WorkWithUser, count: int):
-    """Выполняет запрос"""
+    '''Выполняет запрос'''
 
     user.choice_site()  # выбор ресурса
     user.get_request()  # запрос
@@ -16,7 +16,7 @@ def get_user(user: WorkWithUser, count: int):
 
 
 def repeat_get(user: WorkWithUser):
-    """Повторяет запрос"""
+    '''Повторяет запрос'''
 
     while True:
         try:
@@ -28,12 +28,10 @@ def repeat_get(user: WorkWithUser):
             else:
                 raise ValueError
         except ValueError:
-            print("Некорректный ввод")
+            print("Ошибка ввода")
 
 
 def find_get(user: WorkWithUser):
-    """Ищет дополнительный запрос пользователя"""
-
     while True:
         try:
             choice_user = int(input('\n1 - Да\n2 - Нет\nХотите найти ключевое слово в вакансиях?'))

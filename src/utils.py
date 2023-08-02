@@ -37,8 +37,8 @@ class WorkWithUser:
         city_list = ['Россия', 'Москва', 'Санкт-Петербург']
         while True:
             try:
-                choice_user = int(input(f'1 - {city_list[0]}\n2 - {city_list[1]}\n3 - {city_list[2]}\nВыбирите регион: '))
-                if choice_user in [1, 2]:
+                choice_user = int(input(f'1 - {city_list[0]}\n2 - {city_list[1]}\n3 - {city_list[2]}\nВыберите регион: '))
+                if choice_user in [1, 2, 3]:
                     self.city = city_list[choice_user - 1]
                     break
                 else:
@@ -65,7 +65,7 @@ class WorkWithUser:
         jobs = []
         if self.site == 'hh.ru':
             city = {'Россия': 1, 'Москва': 1, 'Санкт-Петербург': 2}
-            info = HH(self.request, self.quantity, city[self.city]).info()
+            info = HH(self.request, self.quantity, city[self.city]).get_info()
             for item in info:
                 jobs.append(Vac_for_HH(item).__dict__)
         else:
